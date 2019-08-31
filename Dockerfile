@@ -6,4 +6,4 @@ COPY . /app
 
 RUN pip3 install --trusted-host pypi.python.org -r requirements.txt
 
-CMD ["python", "grandma"]
+CMD ["python", "main.py"]
