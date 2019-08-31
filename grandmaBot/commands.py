@@ -40,9 +40,9 @@ async def grandmaRating(incomingMessage):
     if myStr == "":
         return f"Who do you want grandma to rate?\nUse `{CMD_PREFIX}{COMMAND_STRINGS[1]} USERNAME` to tell grandma!"
 
-    response = responses_mapping.get(myStr)[0]
+    response = responses_mapping.get(myStr)
     if response is not None:
-        return response
+        return response[0]
 
     # Get the last digit of the hash & add 1
     digit = int(str(hash(myStr))[-1]) + 1
@@ -54,9 +54,9 @@ async def grandmaLevel(incomingMessage):
     if myStr == "":
         return f"Whose grandma level do you want?\nUse `{CMD_PREFIX}{COMMAND_STRINGS[0]} USERNAME` to tell grandma!"
 
-    response = responses_mapping.get(myStr)[1]
+    response = responses_mapping.get(myStr)
     if response is not None:
-        return response
+        return response[1]
 
     # Get the penultilmate 3 digits from the hash
     level = str(hash(myStr))[-4:-1]
