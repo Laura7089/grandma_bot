@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import os
 
 from grandma_bot import client
 
@@ -15,6 +16,7 @@ LOGGER.addHandler(logging.StreamHandler())
 
 # Initialise a client
 my_client = client.GrandmaClient()
-with open("clientID.txt") as id_file:
-    myID = id_file.readline().replace("\n", "")
-my_client.run(myID)
+# with open("clientID.txt") as id_file:
+# myID = id_file.readline().replace("\n", "")
+CLIENT_ID = os.environ.get("CLIENT_ID")
+my_client.run(CLIENT_ID)
