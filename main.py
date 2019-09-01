@@ -4,11 +4,10 @@ import logging
 from grandma_bot import client
 
 # Set up logging
+LOGFILE = "grandma_bot.log"
 LOGGER = logging.getLogger('discord')
 LOGGER.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='lastRun.log',
-                              encoding='utf-8',
-                              mode='w')
+handler = logging.FileHandler(filename=LOGFILE, encoding='utf-8', mode='w')
 handler.setFormatter(
     logging.Formatter('[%(asctime)s:%(levelname)s:%(name)s]  %(message)s'))
 LOGGER.addHandler(handler)

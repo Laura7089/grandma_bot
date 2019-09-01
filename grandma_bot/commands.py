@@ -2,7 +2,7 @@ from collections import Counter
 
 import yaml
 
-from .common import getText
+from .common import get_command_args
 
 #############
 # CONSTANTS #
@@ -36,7 +36,7 @@ with open("custom_responses.yaml", "rt") as responses_file:
 
 
 async def grandmaRating(incomingMessage):
-    myStr = getText(incomingMessage)
+    myStr = get_command_args(incomingMessage)
     if myStr == "":
         return f"Who do you want grandma to rate?\nUse `{CMD_PREFIX}{COMMAND_STRINGS[1]} USERNAME` to tell grandma!"
 
@@ -50,7 +50,7 @@ async def grandmaRating(incomingMessage):
 
 
 async def grandmaLevel(incomingMessage):
-    myStr = getText(incomingMessage)
+    myStr = get_command_args(incomingMessage)
     if myStr == "":
         return f"Whose grandma level do you want?\nUse `{CMD_PREFIX}{COMMAND_STRINGS[0]} USERNAME` to tell grandma!"
 

@@ -1,16 +1,16 @@
 import string
 
 
-def getText(message):
+def get_command_args(message):
     try:
-        formattedString = message.content[message.content.index(" ") + 1:]
+        formatted_string = message.content[message.content.index(" ") + 1:]
     except ValueError:
         return ""
-    return formattedString
+    return formatted_string
 
 
-def scrubString(myStr):
-    return "".join(
-        [char for char in myStr.lower() if char in (
-            " " + string.ascii_lowercase + string.digits
-        )])
+def scrub_str(my_str):
+    return "".join([
+        char for char in my_str.lower()
+        if char in (" " + string.ascii_lowercase + string.digits)
+    ])
