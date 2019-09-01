@@ -14,5 +14,5 @@ The recommended method of passing client ID of your bot's discord account is via
 
 ## Custom Responses
 
-Make a folder called `custom-responses`, and insert all your response files as `.yaml` files in there; with a docker image mount a volume in `/app/custom-responses`.
+Insert all your response files as `.yaml` files in `custom-responses` or with a docker image mount a volume in `/app/custom-responses`.
 To add a response, add the message text as a top-level header, then add *two* responses underneath, one for grandmarating and one for grandmalevel (leave one blank if not desired).

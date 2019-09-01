@@ -1,3 +1,4 @@
+import os
 from collections import Counter
 
 import yaml
@@ -16,6 +17,8 @@ COMMAND_STRINGS = (
     "count",
 )
 
+REPONSES_DIR = "custom-responses"
+
 CMD_PREFIX = "g!"
 
 HELP_MESSAGE = f"""```
@@ -26,17 +29,28 @@ Commands:
 {CMD_PREFIX}{COMMAND_STRINGS[2]} or {CMD_PREFIX}{COMMAND_STRINGS[3]} - display this help message
 ```"""
 
-with open("custom_responses.yaml", "rt") as responses_file:
-    responses_mapping = yaml.load(responses_file.read(),
-                                  Loader=yaml.SafeLoader)
+# Grab all the custom responses files
+responses_mapping = dict()
+if os.path.isdir(REPONSES_DIR):
+    for filename in os.listdir(REPONSES_DIR):
+        if filename.split[-1] in ("yaml", "yml"):
+            with open(
+                    os.path.join(REPONSES_DIR, filename),
+                    "rt",
+            ) as responses_file:
+                responses_mapping.update(
+                    yaml.load(
+                        responses_file.read(),
+                        Loader=yaml.SafeLoader,
+                    ))
 
 #################
 # CMD FUNCTIONS #
 #################
 
 
-async def grandmaRating(incomingMessage):
-    myStr = get_command_args(incomingMessage)
+async def grandma_rating(incoming_message):
+    myStr = get_command_args(incoming_message)
     if myStr == "":
         return f"Who do you want grandma to rate?\nUse `{CMD_PREFIX}{COMMAND_STRINGS[1]} USERNAME` to tell grandma!"
 
@@ -49,8 +63,8 @@ async def grandmaRating(incomingMessage):
     return f"Grandma rates {myStr} **{str(digit)}/10**!"
 
 
-async def grandmaLevel(incomingMessage):
-    myStr = get_command_args(incomingMessage)
+async def grandma_level(incoming_message):
+    myStr = get_command_args(incoming_message)
     if myStr == "":
         return f"Whose grandma level do you want?\nUse `{CMD_PREFIX}{COMMAND_STRINGS[0]} USERNAME` to tell grandma!"
 
@@ -63,19 +77,19 @@ async def grandmaLevel(incomingMessage):
     return f"{myStr}'s grandma level: **{level}**!"
 
 
-async def getHelp(dummy):
+async def get_help(dummy):
     return HELP_MESSAGE
 
 
-async def getUnrecognised(dummy):
+async def get_unrecognised(dummy):
     return f"Grandma doesn't know what you're talking about, try `{CMD_PREFIX}{COMMAND_STRINGS[2]}` for some life lessons!"
 
 
-async def countMessages(incomingMessage):
+async def count_messages(incoming_message):
     MAX_CONTRIBUTORS = 5
     MAX_HISTORY = 500
-    messages_list = await incomingMessage.channel.history(limit=MAX_HISTORY
-                                                          ).flatten()
+    messages_list = await incoming_message.channel.history(limit=MAX_HISTORY
+                                                           ).flatten()
     contributors = Counter([
         channel_message.author for channel_message in messages_list
     ]).most_common(MAX_CONTRIBUTORS)
@@ -94,18 +108,18 @@ async def countMessages(incomingMessage):
 # LOGIC #
 #########
 command_map = {
-    COMMAND_STRINGS[0]: grandmaRating,
-    COMMAND_STRINGS[1]: grandmaLevel,
-    COMMAND_STRINGS[2]: getHelp,
-    COMMAND_STRINGS[3]: getHelp,
-    COMMAND_STRINGS[4]: getUnrecognised,
-    COMMAND_STRINGS[5]: countMessages,
+    COMMAND_STRINGS[0]: grandma_rating,
+    COMMAND_STRINGS[1]: grandma_level,
+    COMMAND_STRINGS[2]: get_help,
+    COMMAND_STRINGS[3]: get_help,
+    COMMAND_STRINGS[4]: get_unrecognised,
+    COMMAND_STRINGS[5]: count_messages,
 }
 
 
-async def botCommand(incomingMessage):
-    messageArgs = incomingMessage.content[len(CMD_PREFIX):].split(" ")
+async def bot_command(incoming_message):
+    messageArgs = incoming_message.content[len(CMD_PREFIX):].split(" ")
     try:
-        return await command_map[messageArgs[0].lower()](incomingMessage)
+        return await command_map[messageArgs[0].lower()](incoming_message)
     except KeyError:
-        return command_map["unrecognised"](incomingMessage)
+        return command_map["unrecognised"](incoming_message)

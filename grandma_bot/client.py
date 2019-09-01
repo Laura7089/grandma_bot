@@ -3,7 +3,7 @@ import time
 
 import discord
 
-from .commands import CMD_PREFIX, botCommand
+from .commands import CMD_PREFIX, bot_command
 from .common import get_command_args
 
 
@@ -15,39 +15,39 @@ class GrandmaClient(discord.Client):
 
         # If it's a command
         if message.content.startswith(CMD_PREFIX):
-            returnMsg = await botCommand(message)
+            returnMsg = await bot_command(message)
             await message.channel.send(returnMsg)
             return
 
         # If it's not a command
-        mesgQueue = list()
-        currentDay = time.strftime("%a").lower()
-        scrubbedMsg = get_command_args(message.content)
+        mesg_queue = list()
+        current_day = time.strftime("%a").lower()
+        scrubbed_msg = get_command_args(message.content)
 
         # 1 in 1000 change to say "Mother knows best" on any message
         if random.randint(0, 1000) == 1:
-            mesgQueue.append("Mother knows best.")
+            mesg_queue.append("Mother knows best.")
 
         # Respond to bolo prompts
-        if "its friday" in scrubbedMsg:
-            if currentDay == "fri":
-                mesgQueue.append("Grandma {0} Fridays.".format(
+        if "its friday" in scrubbed_msg:
+            if current_day == "fri":
+                mesg_queue.append("Grandma {0} Fridays.".format(
                     random.choice([
                         "likes", "loves", "adores", "hates", "despises",
                         "doesn't mind"
                     ])))
             else:
-                mesgQueue.append(
+                mesg_queue.append(
                     f"Grandma thinks you might need a calendar for Christmas, {message.author.mention}."
                 )
 
         # Respond to the word "healing"
-        if "healing" in scrubbedMsg:
-            mesgQueue.append(f"{message.author.mention}, walk it off.")
+        if "healing" in scrubbed_msg:
+            mesg_queue.append(f"{message.author.mention}, walk it off.")
 
         # If we have any messages queued up, send them all (with a space in between)
-        if len(mesgQueue) != 0:
-            await message.channel.send(" ".join(mesgQueue))
+        if len(mesg_queue) != 0:
+            await message.channel.send(" ".join(mesg_queue))
         return
 
     async def on_ready(self):
