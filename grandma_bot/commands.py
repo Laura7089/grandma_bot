@@ -33,7 +33,7 @@ Commands:
 responses_mapping = dict()
 if os.path.isdir(REPONSES_DIR):
     for filename in os.listdir(REPONSES_DIR):
-        if filename.split[-1] in ("yaml", "yml"):
+        if filename.split(".")[-1] in ("yaml", "yml"):
             with open(
                     os.path.join(REPONSES_DIR, filename),
                     "rt",
