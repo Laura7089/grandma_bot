@@ -10,10 +10,9 @@ Either:
 
 ## Passing ClientID
 
-The recommended method of passing client ID of your bot's discord account is via an environment variable (the bot expects `CLIENT_ID`), alternatively you can pass it via an argument but beware as **this will store the plaintext ID in your shell's history**.
+The recommended method of passing client ID of your bot's discord account is via an environment variable (named `CLIENT_ID`), alternatively, you can pass it via an argument but beware as **this will store the plaintext ID in your shell's history**.
 
 ## Custom Responses
 
-`custom_responses.yaml` is encrypted; replace if you are going to run them:
-
+Make a folder called `custom-responses`, and insert all your response files as `.yaml` files in there; with a docker image mount a volume in `/app/custom-responses`.
 To add a response, add the message text as a top-level header, then add *two* responses underneath, one for grandmarating and one for grandmalevel (leave one blank if not desired).
